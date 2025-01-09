@@ -36,8 +36,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  Future<http.Response> getData(String a) {
-    return NetworkService().getresponce(a);
+  Future<dynamic> getData(String a) {
+    return NetworkService.getresponce(a);
   }
 
   void ButtonPressed() async {
