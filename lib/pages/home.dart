@@ -1,21 +1,21 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:untitled/network_utils/network_manager.dart';
 import '../widgets/data_card.dart';
 
 
-enum status{
+enum Status{
   active,
   loading,
   data,
   error;
 
 }
-late status currentStatus = status.active;
+Status currentStatus = Status.active;
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -32,48 +32,57 @@ class _MyHomePageState extends State<MyHomePage> {
   String _userName =" ";
   late int _age;
   String _profession=" ";
-  String _error=" ";
+  var _error=" ";
 
 
 
   Future<dynamic> getData(String a) {
-    return NetworkService.getresponce(a);
+    return NetworkService.getresponse(a);
   }
 
-  void ButtonPressed() async {
+  void buttonPressed() async {
   setState(() {
-    currentStatus=status.loading;
-    print(currentStatus.name);
+    currentStatus=Status.loading;
+    if (kDebugMode) {
+      print(currentStatus.name);
+    }
   });
   final input = textEditingController.text;
-  final responce = await getData(input);
-  var decodedresponce = json.decode(responce.body);
-  if (responce.statusCode == 200) {
+  final response = await getData(input);
+  var decodedresponce = json.decode(response.body);
+  if (response.statusCode == 200) {
   setState(() {
   _userName = decodedresponce['data']['user']['name'];
   _userId = decodedresponce['data']['user']['user_id'];
   _age = decodedresponce['data']['user']['age'];
   _profession = decodedresponce['data']['user']['profession'];
   _userDetails = decodedresponce;
-  currentStatus= status.data;
-    print(currentStatus.name);
+  currentStatus= Status.data;
+    if (kDebugMode) {
+      print(currentStatus.name);
+    }
   });
   } else {
   setState(() {
   _error = decodedresponce['error'];
-  currentStatus = status.error;
-  print(currentStatus.name);
-  });
-  print(_error);
+  currentStatus = Status.error;
+  if (kDebugMode) {
+    print(currentStatus.name);
   }
-// print("responce is :$");
+  });
+  if (kDebugMode) {
+    print(_error);
+  }
+  }
+// print("response is :$");
 }
 
+@override
   void initState() {
     super.initState();
     textEditingController = TextEditingController();
   }
-
+  @override
   void dispose() {
     super.dispose();
     textEditingController.dispose();
@@ -105,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // SizedBox(height: 10),
             ElevatedButton(
               onPressed:()=>{
-                ButtonPressed()
+                buttonPressed()
               },
               style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.blue)),
@@ -124,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                     : currentStatus.name == "error"
                         ? Text(
-                            "$_error",
+                            _error,
                             style: TextStyle(color: Colors.red),
                           )
                         : DataCard(
