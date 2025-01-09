@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 class DataCard extends StatelessWidget {
   const DataCard({
     super.key,
-    required this.user_details,
-    required this.user_name,
-    required this.user_id,
+    required this.userDetails,
+    required this.userName,
+    required this.userId,
     required this.age,
     required this.profession,
-  });
+  }) ;
 
-  final dynamic user_details;
-  final dynamic user_name;
-  final dynamic user_id;
-  final dynamic age;
-  final dynamic profession;
+  final dynamic userDetails;
+  final String userName;
+  final int userId;
+  final int age;
+  final String profession;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class DataCard extends StatelessWidget {
                     borderRadius:
                     BorderRadius.circular(5.0),
                     child: Image.network(
-                      user_details['data']['user']
+                      userDetails['data']['user']
                       ['profile_image'],
                       fit: BoxFit.cover,
                     )),
@@ -50,11 +50,10 @@ class DataCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    userDetails(user: "Name",user_detail: user_name),
-                    userDetails(user: "UserID", user_detail: user_id),
-                    userDetails(user: "Age",user_detail: age),
-                    userDetails(user: "Profession", user_detail: profession),
-
+                    UserDetail(user: "Name",user_detail: userName),
+                    UserDetail(user: "UserID", user_detail: userId),
+                    UserDetail(user: "Age",user_detail: age),
+                    UserDetail(user: "Profession", user_detail: profession),
 
                     // Row(
                     //   children: [
@@ -91,8 +90,8 @@ class DataCard extends StatelessWidget {
   }
 }
 
-class userDetails extends StatelessWidget {
-  const userDetails({
+class UserDetail extends StatelessWidget {
+  const UserDetail({
     super.key,
     required this.user,
     required this.user_detail,

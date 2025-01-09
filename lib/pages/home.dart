@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../Widgets/DataCard.dart';
-import '../Services/Network.dart';
+
+
+import 'package:untitled/network_utils/network_manager.dart';
+
+import '../widgets/data_card.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({super.key, required this.title});
@@ -14,34 +17,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _textEditingController = TextEditingController();
-  final api =
-      "https://2fa0d036-25f8-4bc9-80a4-ff1726e4e097.mock.pstmn.io/caddayn/mock/users/";
-  var user_details;
-  var user_id;
-  var user_name;
-  var age;
-  var profession;
-  var u_error;
-  bool iserror = false;
-  bool isloading = false;
+  late TextEditingController textEditingController;
+  var _userDetails;
+  late int _userId;
+  String _userName =" ";
+  late int _age;
+  String _profession=" ";
+  String _error=" ";
+  bool _isError = false;
+  bool _isLoading = false;
 
   Future<http.Response> getData(String a) {
-    return Service().getresponce(a);
+    return NetworkService().getresponce(a);
+  }
+
+  void initState() {
+    super.initState();
+    textEditingController = TextEditingController();
   }
 
   void dispose() {
     super.dispose();
-    _textEditingController.dispose();
+    textEditingController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   title: Text(widget.title),
-      // ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,11 +51,12 @@ class _MyHomePageState extends State<MyHomePage> {
             Padding(
               padding: EdgeInsets.fromLTRB(120, 0, 120, 20),
               child: TextField(
-                controller: _textEditingController,
+                controller: textEditingController,
                 decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
+
+                    // enabledBorder: OutlineInputBorder(
+                    //     borderSide: BorderSide(color: Colors.green),
+                    //     borderRadius: BorderRadius.all(Radius.circular(12))),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
@@ -70,28 +73,28 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               onPressed: () async {
                 setState(() {
-                  isloading = true;
+                  _isLoading = true;
                 });
-                final input = _textEditingController.text;
+                final input = textEditingController.text;
                 final responce = await getData(input);
                 var decodedresponce = json.decode(responce.body);
                 if (responce.statusCode == 200) {
                   setState(() {
-                    isloading = false;
-                    iserror = false;
-                    user_name = decodedresponce['data']['user']['name'];
-                    user_id = decodedresponce['data']['user']['user_id'];
-                    age = decodedresponce['data']['user']['age'];
-                    profession = decodedresponce['data']['user']['profession'];
-                    user_details = decodedresponce;
+                    _isLoading = false;
+                    _isError = false;
+                    _userName = decodedresponce['data']['user']['name'];
+                    _userId = decodedresponce['data']['user']['user_id'];
+                    _age = decodedresponce['data']['user']['age'];
+                    _profession = decodedresponce['data']['user']['profession'];
+                    _userDetails = decodedresponce;
                   });
                 } else {
                   setState(() {
-                    isloading = false;
-                    iserror = true;
-                    u_error = decodedresponce['error'];
+                    _isLoading = false;
+                    _isError = true;
+                    _error = decodedresponce['error'];
                   });
-                  print(u_error);
+                  print(_error);
                 }
                 // print("responce is :$");
               },
@@ -99,24 +102,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   backgroundColor: WidgetStatePropertyAll(Colors.blue)),
             ),
             SizedBox(height: 10),
-            isloading
+            _isLoading
                 ? CircularProgressIndicator()
-                : user_details == null
+                : _userDetails == null
                     ? const Text(
                         'Enter the user id and click button to get the user details',
                         style: TextStyle(color: Colors.green),
                       )
-                    : iserror
+                    : _isError
                         ? Text(
-                            "$u_error",
+                            "$_error",
                             style: TextStyle(color: Colors.red),
                           )
                         : DataCard(
-                            user_details: user_details,
-                            user_name: user_name,
-                            user_id: user_id,
-                            age: age,
-                            profession: profession)
+                            userDetails: _userDetails,
+                            userName: _userName,
+                            userId: _userId,
+                            age: _age,
+                            profession: _profession)
           ],
         ),
       ),
