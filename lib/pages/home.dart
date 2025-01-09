@@ -53,10 +53,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(
                 controller: textEditingController,
                 decoration: InputDecoration(
-
-                    // enabledBorder: OutlineInputBorder(
-                    //     borderSide: BorderSide(color: Colors.green),
-                    //     borderRadius: BorderRadius.all(Radius.circular(12))),
+                    enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green),
+                        borderRadius: BorderRadius.all(Radius.circular(12))),
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                         borderRadius: BorderRadius.all(Radius.circular(12))),
