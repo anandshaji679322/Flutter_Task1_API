@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:untitled/network_utils/network_manager.dart';
 
-import 'package:untitled/service_model.dart';
+import 'package:untitled/model/service_model.dart';
 import '../widgets/data_card.dart';
 
 enum Status {

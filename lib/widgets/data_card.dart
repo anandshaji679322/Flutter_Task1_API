@@ -55,33 +55,6 @@ class DataCard extends StatelessWidget {
                   UserDetail(user: "UserID", userDetail: userId),
                   UserDetail(user: "Age",userDetail: age),
                   UserDetail(user: "Profession", userDetail: profession),
-
-                  // Row(
-                  //   children: [
-                  //     Text("User ID "),
-                  //     Text(":"),
-                  //     Text(" $user_id")
-                  //   ],
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Text("Age "),
-                  //     Text(":"),
-                  //     Text(" $age")
-                  //   ],
-                  // ),
-                  // Row(
-                  //   children: [
-                  //     Text("Profession "),
-                  //     Text(":"),
-                  //     Text(" $profession")
-                  //   ],
-                  // ),
-                  // richText(user: "Name",user_detail: user_name),
-                  // richText(user: "User ID",user_detail: user_id),
-                  // richText(user: "Age", user_detail: age),
-                  // richText(user: "Profession", user_detail: profession)
-
                 ],
               ),
             )
