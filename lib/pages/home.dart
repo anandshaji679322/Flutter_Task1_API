@@ -1,17 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
 import 'package:untitled/network_utils/network_manager.dart';
+
+import 'package:untitled/ServiceModel.dart';
 import '../widgets/data_card.dart';
 
-
-enum Status{
+enum Status {
   active,
   loading,
   data,
   error;
-
 }
+
 Status currentStatus = Status.active;
 
 class MyHomePage extends StatefulWidget {
@@ -19,69 +20,70 @@ class MyHomePage extends StatefulWidget {
 
   final String title;
 
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   late TextEditingController textEditingController;
   var _userDetails;
   late int _userId;
-  String _userName =" ";
+  String _userName = " ";
   late int _age;
-  String _profession=" ";
-  var _error=" ";
+  String _profession = " ";
+  var _error = " ";
+  var _imgUrl;
 
-
-
-  Future<dynamic> getData(String a) {
-    return NetworkService.getresponse(a);
+  Future<ServiceModel> getData(String a) {
+    return NetworkService().getresponse(a);
   }
 
   void buttonPressed() async {
-  setState(() {
-    currentStatus=Status.loading;
-    if (kDebugMode) {
-      print(currentStatus.name);
-    }
-  });
-  final input = textEditingController.text;
-  final response = await getData(input);
-  var decodedresponce = json.decode(response.body);
-  if (response.statusCode == 200) {
-  setState(() {
-  _userName = decodedresponce['data']['user']['name'];
-  _userId = decodedresponce['data']['user']['user_id'];
-  _age = decodedresponce['data']['user']['age'];
-  _profession = decodedresponce['data']['user']['profession'];
-  _userDetails = decodedresponce;
-  currentStatus= Status.data;
-    if (kDebugMode) {
-      print(currentStatus.name);
-    }
-  });
-  } else {
-  setState(() {
-  _error = decodedresponce['error'];
-  currentStatus = Status.error;
-  if (kDebugMode) {
-    print(currentStatus.name);
-  }
-  });
-  if (kDebugMode) {
-    print(_error);
-  }
-  }
-// print("response is :$");
-}
+    setState(() {
+      currentStatus = Status.loading;
+      if (kDebugMode) {
+        print(currentStatus.name);
+      }
+    });
+    final input = textEditingController.text;
+    final response = await getData(input);
+    print("API Call sucess and data returned");
+    print(response.data?.user.name);
+    if (response.success == true) {
+      setState(() {
+        // var decodedresponce = json.decode(response.body);
+        _userName = response.data?.user.name as String;
+        _userId = response.data?.user.userId as int;
+        _age = response.data?.user.age as int;
+        _profession = response.data?.user.profession as String;
+        _userDetails = response;
+        _imgUrl = response.data?.user.profileImage;
+        currentStatus = Status.data;
+        if (kDebugMode) {
+          print(currentStatus.name);
+        }
+      });
+    } else {
+      setState(() {
+        _error = response.error;
+        print(_error);
+        currentStatus = Status.error;
+        if (kDebugMode) {
+          print(currentStatus.name);
+        }
+      });
 
-@override
+        print(_error);
+    }
+// print("response is :$");
+  }
+
+  @override
   void initState() {
     super.initState();
     textEditingController = TextEditingController();
   }
+
   @override
   void dispose() {
     super.dispose();
@@ -113,18 +115,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             // SizedBox(height: 10),
             ElevatedButton(
-              onPressed:()=>{
-                buttonPressed()
-              },
+              onPressed: () => {buttonPressed()},
               style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.blue)),
-              child: Text(
-                "Fetch User",
-                style: TextStyle(color: Colors.white)
-              ),
+              child: Text("Fetch User", style: TextStyle(color: Colors.white)),
             ),
             SizedBox(height: 10),
-            currentStatus.name =='loading'
+            currentStatus.name == 'loading'
                 ? CircularProgressIndicator()
                 : currentStatus.name == "active"
                     ? const Text(
@@ -141,7 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             userName: _userName,
                             userId: _userId,
                             age: _age,
-                            profession: _profession)
+                            profession: _profession,
+                            imgUrl: _imgUrl,
+                          )
           ],
         ),
       ),

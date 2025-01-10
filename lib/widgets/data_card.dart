@@ -8,6 +8,7 @@ class DataCard extends StatelessWidget {
     required this.userId,
     required this.age,
     required this.profession,
+    required this.imgUrl,
   }) ;
 
   final dynamic userDetails;
@@ -15,6 +16,8 @@ class DataCard extends StatelessWidget {
   final int userId;
   final int age;
   final String profession;
+
+  final dynamic imgUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +40,7 @@ class DataCard extends StatelessWidget {
                     borderRadius:
                     BorderRadius.circular(5.0),
                     child: Image.network(
-                      userDetails['data']['user']
-                      ['profile_image'],
+                      imgUrl,
                       fit: BoxFit.cover,
                     )),
               ),
