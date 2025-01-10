@@ -33,6 +33,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String _profession = " ";
   var _error = " ";
   dynamic _imgUrl;
+  OutlineInputBorder decoration = OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.green),
+      borderRadius: BorderRadius.all(Radius.circular(12)));
 
   Future<ServiceModel> getData(String a) {
     return NetworkService().getresponse(a);
@@ -54,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     if (response.success == true) {
       setState(() {
-        // var decodedresponce = json.decode(response.body);
         _userName = response.data?.user.name as String;
         _userId = response.data?.user.userId as int;
         _age = response.data?.user.age as int;
@@ -78,9 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
         }
       });
 
-        if (kDebugMode) {
-          print(_error);
-        }
+      if (kDebugMode) {
+        print(_error);
+      }
     }
 // print("response is :$");
   }
@@ -109,14 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(
                 controller: textEditingController,
                 decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.green),
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(12))),
+                    enabledBorder: decoration,
+                    focusedBorder: decoration,
+                    border: decoration,
                     hintText: "User ID"),
               ),
             ),
