@@ -21,13 +21,13 @@ class ServiceModel {
 
   ServiceModel({
     required this.success,
-    required this.data,
+    this.data,
     required this.error,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
     success: json["success"],
-    data: Data.fromJson(json["data"]),
+    data: json["data"] != null ? Data.fromJson(json["data"]):null,
     error: json["error"],
   );
 
