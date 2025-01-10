@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:untitled/network_utils/network_manager.dart';
 
-import 'package:untitled/ServiceModel.dart';
+import 'package:untitled/service_model.dart';
 import '../widgets/data_card.dart';
 
 enum Status {
@@ -26,13 +26,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late TextEditingController textEditingController;
-  var _userDetails;
+  dynamic _userDetails;
   late int _userId;
   String _userName = " ";
   late int _age;
   String _profession = " ";
   var _error = " ";
-  var _imgUrl;
+  dynamic _imgUrl;
 
   Future<ServiceModel> getData(String a) {
     return NetworkService().getresponse(a);
@@ -47,8 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     final input = textEditingController.text;
     final response = await getData(input);
-    print("API Call sucess and data returned");
-    print(response.data?.user.name);
+    if (kDebugMode) {
+      print("API Call sucess and data returned");
+      print(response.data?.user.name);
+    }
+
     if (response.success == true) {
       setState(() {
         // var decodedresponce = json.decode(response.body);
@@ -66,14 +69,18 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       setState(() {
         _error = response.error;
-        print(_error);
+        if (kDebugMode) {
+          print(_error);
+        }
         currentStatus = Status.error;
         if (kDebugMode) {
           print(currentStatus.name);
         }
       });
 
-        print(_error);
+        if (kDebugMode) {
+          print(_error);
+        }
     }
 // print("response is :$");
   }

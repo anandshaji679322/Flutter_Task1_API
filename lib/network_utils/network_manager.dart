@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:untitled/ServiceModel.dart';
-
-import '../ServiceModel.dart';
+import 'package:untitled/service_model.dart';
 
 class NetworkService {
   Future<ServiceModel> getresponse(String a) async {
@@ -13,15 +9,17 @@ class NetworkService {
       try{
         final response = await http.get(Uri.parse('$api$a'));
         String json = response.body;
-        print(json);
+        if (kDebugMode) {
+          print(json);
+        }
         return serviceModelFromJson(json);
       }catch(e){
-
         final response = http.Response('{"success": false,"error":"Some Thing Went Wrong"}',500);
         String json = response.body;
-        print(json);
+        if (kDebugMode) {
+          print(json);
+        }
         return serviceModelFromJson(json);
-        throw(e);
       }
   }
 
