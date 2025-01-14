@@ -1,8 +1,8 @@
 import 'package:untitled/status_enum.dart';
 import 'package:flutter/foundation.dart';
 
-import 'model/service_model.dart';
-import 'network_utils/network_manager.dart';
+import '../model/service_model.dart';
+import '../network_utils/network_manager.dart';
 
 class StatusProvider extends ChangeNotifier {
   dynamic userDetails;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:untitled/status_enum.dart';
-import '../status_provider.dart';
+import '../provider/status_provider.dart';
 import '../widgets/data_card.dart';
 
 class MyHomePage extends StatefulWidget {
