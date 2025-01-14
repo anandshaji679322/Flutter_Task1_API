@@ -4,7 +4,6 @@
 
 import 'dart:convert';
 
-
 ServiceModel serviceModelFromJson(String str) => ServiceModel.fromJson(json.decode(str));
 
 String serviceModelToJson(ServiceModel data) => json.encode(data.toJson());
@@ -21,16 +20,16 @@ class ServiceModel {
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) => ServiceModel(
-    success: json["success"],
-    data: json["data"] != null ? Data.fromJson(json["data"]):null,
-    error: json["error"],
-  );
+        success: json["success"],
+        data: json["data"] != null ? Data.fromJson(json["data"]) : null,
+        error: json["error"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "data": data?.toJson(),
-    "error": error,
-  };
+        "success": success,
+        "data": data?.toJson(),
+        "error": error,
+      };
 }
 
 class Data {
@@ -43,14 +42,14 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    user: User.fromJson(json["user"]),
-    message: json["message"],
-  );
+        user: User.fromJson(json["user"]),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "user": user.toJson(),
-    "message": message,
-  };
+        "user": user.toJson(),
+        "message": message,
+      };
 }
 
 class User {
@@ -69,18 +68,18 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-    userId: json["user_id"],
-    name: json["name"],
-    age: json["age"],
-    profession: json["profession"],
-    profileImage: json["profile_image"],
-  );
+        userId: json["user_id"],
+        name: json["name"],
+        age: json["age"],
+        profession: json["profession"],
+        profileImage: json["profile_image"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "user_id": userId,
-    "name": name,
-    "age": age,
-    "profession": profession,
-    "profile_image": profileImage,
-  };
+        "user_id": userId,
+        "name": name,
+        "age": age,
+        "profession": profession,
+        "profile_image": profileImage,
+      };
 }
